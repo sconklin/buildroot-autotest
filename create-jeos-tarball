@@ -1,0 +1,7 @@
+#!/bin/sh
+cp output/images/bzImage jeos_x86_64
+cp output/images/rootfs.ext2 jeos_x86_64
+cd jeos_x86_64
+git format-patch -1
+cd ..
+tar cjvf jeos_x86_64.tar.bz2 jeos_x86_64

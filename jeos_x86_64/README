@@ -1,0 +1,53 @@
+Autotest minimal guest (JeOS) x86_64
+
+This contains a minimal intel 64 bit
+image, for usage with the virtualization
+tests of autotest. It contains drivers
+for the virtio devices plus useful utilities.
+
+https://github.com/autotest/autotest/wiki/KVMAutotest
+
+You can (hopefully) get updated versions of this file on
+
+http://lmr.fedorapeople.org/jeos_images/jeos_x86_64.tar.bz2
+
+If you want to boot this image on your own,
+you can execute the following command line:
+
+qemu-kvm -name 'autotest-jeos' -nodefaults -vga std -monitor unix:'/tmp/monitor-autotest-jeos',server,nowait -serial stdio -drive file='rootfs.ext2',index=0,if=virtio,cache=none -device virtio-net-pci,netdev=idjeos,mac='9a:ee:02:64:ee:b0',id='idjeos1' -netdev user,id=idjeos,hostfwd=tcp::5000-:22 -m 256 -smp 2 -kernel 'bzImage' -append ' root=/dev/vda console=tty0 console=ttyS0,115200' -vnc :0
+
+Obviously you can replace qemu-kvm with your
+qemu-system-x86_64 of your preference. If you
+want to stablish an ssh connection to it, in order
+to avoid polluting your known hosts file and also
+speed up authentication, you can do the following:
+
+ssh -o UserKnownHostsFile=/dev/null -o PreferredAuthentications=password -p 5000 root@localhost
+
+Also no need to explain, but you can choose other
+port instead of 5000. The login is:
+
+user: root
+passwd: 123456
+
+As for how to reproduce this recipe, you can:
+
+1) Clone the buildroot repo
+git clone git://git.buildroot.net/buildroot
+2) Apply the patch that's on this tarball
+cd buildroot
+git am /path/to/0001-Add-configuration-for-autotest-x86_64-images.patch
+3) Start building
+make
+4) You might want to create a new tarball using:
+./create-jeos-tarball
+
+If you make config changes, or changes to
+one of the version controlled files, 'git diff'
+will show up, if you want to persist them you
+have to commit them with git commit and then
+merge it with my Add configuration patch.
+
+If you have any doubts you can contact me at
+
+lmr at redhat dot com
