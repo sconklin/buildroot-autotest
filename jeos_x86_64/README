@@ -32,11 +32,11 @@ passwd: 123456
 
 As for how to reproduce this recipe, you can:
 
-1) Clone the buildroot repo
-git clone git://git.buildroot.net/buildroot
-2) Apply the patch that's on this tarball
-cd buildroot
-git am /path/to/0001-Add-configuration-for-autotest-x86_64-images.patch
+1) Clone the autotest buildroot fork (or make a
+private fork on github):
+git clone git://github.com/autotest/buildroot-autotest.git
+cd buildroot-autotest
+git checkout x86_64
 3) Start building
 make
 4) You might want to create a new tarball using:
@@ -45,8 +45,9 @@ make
 If you make config changes, or changes to
 one of the version controlled files, 'git diff'
 will show up, if you want to persist them you
-have to commit them with git commit and then
-merge it with my Add configuration patch.
+have to commit them with git commit and publish
+it on your own repo, or even contribute it
+upstream, if you will
 
 If you have any doubts you can contact me at
 
